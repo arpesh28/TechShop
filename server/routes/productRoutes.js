@@ -3,16 +3,22 @@ import {
   getProductDetails,
   getProducts,
   createProductReview,
+  createProduct,
+  deleteProduct,
+  updateProduct,
 } from "../controllers/productController.js";
-import { protectRoute } from "../middleware/auth.js";
+import { protectRoute, admin } from "../middleware/auth.js";
 
 const router = express.Router();
 
-//  GET all products
-router.get("/", getProducts);
-//  GET product details by id
-router.get("/:id", getProductDetails);
-//  POST product review
-router.post("/reviews/:id", protectRoute, createProductReview);
+//  Customer End Routes
+router.get("/", getProducts); //  GET Products List
+router.get("/:id", getProductDetails); // GET Product Details
+router.post("/reviews/:id", protectRoute, createProductReview); //  Add Product review
+
+//  Admin routes
+router.post("/", protectRoute, admin, createProduct);
+router.delete("/:id", protectRoute, admin, deleteProduct);
+router.put("/", protectRoute, admin, updateProduct);
 
 export default router;

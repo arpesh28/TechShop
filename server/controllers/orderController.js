@@ -2,6 +2,7 @@ import Order from "../models/Order.js";
 import mongoose from "mongoose";
 import asyncHandler from "express-async-handler";
 
+//  Customer Controllers
 const createOrder = asyncHandler(async (req, res) => {
   const {
     orderItems,
@@ -32,6 +33,7 @@ const createOrder = asyncHandler(async (req, res) => {
   }
 });
 
+//  Admin Controllers
 const getOrders = async (req, res) => {
   const orders = await Order.find({});
   res.json(orders);
