@@ -4,7 +4,7 @@ import {
   getProducts,
   createProductReview,
 } from "../controllers/productController.js";
-import protectRoute from "../middleware/auth.js";
+import { protectRoute } from "../middleware/auth.js";
 
 const router = express.Router();
 

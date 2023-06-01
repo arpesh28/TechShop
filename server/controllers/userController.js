@@ -8,6 +8,7 @@ const genToken = (id) => {
   return jwt.sign({ id }, process.env.TOKEN_SECRET, { expiresIn: "60d" });
 };
 
+//  Customer Controllers
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
@@ -90,4 +91,27 @@ const getUserOrders = asyncHandler(async (req, res) => {
   }
 });
 
-export { loginUser, registerUser, updateUserProfile, getUserOrders };
+//  Admin Controllers
+const getUsers = asyncHandler(async (req, res) => {
+  const users = await User.find({});
+  res.json(users);
+});
+
+const deleteUser = asyncHandler(async (req, res) => {
+  try {
+    const user = await User.findByIdAndRemove(req.params.id);
+    res.json(user);
+  } catch (error) {
+    res.status(404);
+    throw new Error("This user could not be found!");
+  }
+});
+
+export {
+  loginUser,
+  registerUser,
+  updateUserProfile,
+  getUserOrders,
+  deleteUser,
+  getUsers,
+};
