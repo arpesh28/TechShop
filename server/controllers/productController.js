@@ -124,6 +124,30 @@ const updateProduct = asyncHandler(async (req, res) => {
     throw new Error("Product not found");
   }
 });
+const removeProductReview = asyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.productId);
+  const updatedReviews = product.reviews.filter(
+    (rev) => rev._id.valueOf() !== req.params.reviewId
+  );
+  if (product) {
+    product.reviews = updatedReviews;
+    product.numberOfReviews = product.reviews.length;
+
+    if (product.numberOfReviews > 0) {
+      product.rating =
+        product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+        product.reviews.length;
+    } else {
+      product.rating = 1;
+    }
+    await product.save();
+    res.status(201).json({ message: "Review has been removed" });
+  } else {
+    res.status(404);
+    throw new Error("Product not found");
+  }
+});
+
 export {
   getProducts,
   getProductDetails,
@@ -131,4 +155,5 @@ export {
   createProduct,
   deleteProduct,
   updateProduct,
+  removeProductReview,
 };
