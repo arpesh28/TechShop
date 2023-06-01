@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import asyncHandler from "express-async-handler";
 import jwt from "jsonwebtoken";
+import Order from "../models/Order.js";
 
 //  TODO: redefine expiresIN
 const genToken = (id) => {
@@ -79,4 +80,14 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-export { loginUser, registerUser, updateUserProfile };
+const getUserOrders = asyncHandler(async (req, res) => {
+  const orders = await Order.find({});
+  if (orders) {
+    res.json(orders);
+  } else {
+    res.status(404);
+    throw new Error("No Orders found");
+  }
+});
+
+export { loginUser, registerUser, updateUserProfile, getUserOrders };
