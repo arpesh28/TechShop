@@ -14,13 +14,11 @@ const protectRoute = asyncHandler(async (req, res, next) => {
 
       next();
     } catch (error) {
-      res.status(401);
-      throw new Error("Not Authorized. Token failed.");
+      res.status(401).send("Not Authorized. Token failed.");
     }
   }
   if (!token) {
-    res.status(401);
-    throw new Error("Not Authorized. No token.");
+    res.status(401).send("Not Authorized. No token.");
   }
 });
 
@@ -28,8 +26,7 @@ const admin = (req, res, next) => {
   if (req.user?.isAdmin !== "false") {
     next();
   } else {
-    res.status(401);
-    throw new Error("Not authorized as an admin.");
+    res.status(401).send("Not authorized as an admin.");
   }
 };
 

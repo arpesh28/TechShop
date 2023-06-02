@@ -22,8 +22,7 @@ const loginUser = asyncHandler(async (req, res) => {
       token: genToken(user._id),
     });
   } else {
-    res.status(401);
-    throw new Error("Invalid Email or password");
+    res.status(401).send("Invalid Email or Password!");
   }
 });
 
@@ -31,8 +30,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
   const userExits = await User.findOne({ email });
   if (userExits) {
-    res.status(400);
-    throw new Error("Email already exists.");
+    res.status(400).send("Email already Exists!");
   }
 
   const user = await User.create({
@@ -50,8 +48,7 @@ const registerUser = asyncHandler(async (req, res) => {
       token: genToken(user._id),
     });
   } else {
-    res.json(400);
-    throw new Error("Invalid user data");
+    res.json(400).send("Invalid user data");
   }
 });
 
@@ -76,8 +73,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       createdAt: updatedUser.createdAt,
     });
   } else {
-    res.status(404);
-    throw new Error("User not found.");
+    res.status(404).send("User not found!");
   }
 });
 
@@ -86,8 +82,7 @@ const getUserOrders = asyncHandler(async (req, res) => {
   if (orders) {
     res.json(orders);
   } else {
-    res.status(404);
-    throw new Error("No Orders found");
+    res.status(404).send("No Orders found!");
   }
 });
 
@@ -102,8 +97,7 @@ const deleteUser = asyncHandler(async (req, res) => {
     const user = await User.findByIdAndRemove(req.params.id);
     res.json(user);
   } catch (error) {
-    res.status(404);
-    throw new Error("This user could not be found!");
+    res.status(404).send("This user could not be found!");
   }
 });
 
