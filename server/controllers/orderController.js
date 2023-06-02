@@ -14,8 +14,7 @@ const createOrder = asyncHandler(async (req, res) => {
     userInfo,
   } = req.body;
   if (orderItems && orderItems.length === 0) {
-    res.status(400);
-    throw new Error("No order items");
+    res.status(400).send("No order items");
   } else {
     const order = new Order({
       orderItems,
@@ -44,8 +43,7 @@ const deleteOrder = asyncHandler(async (req, res) => {
   if (order) {
     res.json(order);
   } else {
-    res.status(404);
-    throw new Error("Order not found!");
+    res.status(404).send("Order not found!");
   }
 });
 
@@ -56,8 +54,7 @@ const setDelivered = asyncHandler(async (req, res) => {
     const updatedOrder = await order.save();
     res.json(updatedOrder);
   } else {
-    res.status(404);
-    throw new Error("Order not found!");
+    res.status(404).send("Order not found!");
   }
 });
 

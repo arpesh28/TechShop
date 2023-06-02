@@ -28,8 +28,7 @@ const createProductReview = asyncHandler(async (req, res) => {
       (r, i) => r.user.toString() === user._id.toString()
     );
     if (alreadyReviewed) {
-      res.status(400);
-      throw new Error("Product already reviewed");
+      res.status(400).send("Product already reviewed");
     }
     const review = {
       name: user.name,
@@ -47,8 +46,7 @@ const createProductReview = asyncHandler(async (req, res) => {
     await product.save();
     res.status(201).json({ message: "Review has been saved." });
   } else {
-    res.status(404);
-    throw new Error("Product not found");
+    res.status(404).send("Product not found");
   }
 });
 
@@ -79,8 +77,7 @@ const createProduct = asyncHandler(async (req, res) => {
   if (newProduct) {
     res.json(products);
   } else {
-    res.status(404);
-    throw new Error("Product could not be uploaded.");
+    res.status(404).send("Product could not be uploaded.");
   }
 });
 
@@ -89,8 +86,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
   if (product) {
     res.status(200).json(product);
   } else {
-    res.status(404);
-    throw new Error("Product not found.");
+    res.status(404).send("Product not found.");
   }
 });
 
@@ -120,8 +116,7 @@ const updateProduct = asyncHandler(async (req, res) => {
     const updatedProduct = await product.save();
     res.json(updatedProduct);
   } else {
-    res.status(404);
-    throw new Error("Product not found");
+    res.status(404).send("Product not found");
   }
 });
 const removeProductReview = asyncHandler(async (req, res) => {
@@ -143,8 +138,7 @@ const removeProductReview = asyncHandler(async (req, res) => {
     await product.save();
     res.status(201).json({ message: "Review has been removed" });
   } else {
-    res.status(404);
-    throw new Error("Product not found");
+    res.status(404).send("Product not found");
   }
 });
 
